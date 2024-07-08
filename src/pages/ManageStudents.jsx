@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';// Replace with your user
 import { deleteStudent, updateStudent } from '../features/Students/studentSlice';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import { getRoman } from '../Utils/getRoman';
 
 const ManageStudents = () => {
     const [viewOpen,setViewOpen] = useState(false)
@@ -20,12 +21,13 @@ const ManageStudents = () => {
         key: 'name',
     },
     {
-      title: 'Class',
-      dataIndex: 'className',
-      key: 'className',
-    },
+        title: 'Class',
+        render: (text, record) => `${getRoman(record.className)}-${record.division}`,
+        key: 'className',
+      },
+      
     {
-      title: 'Roll Number',
+      title: 'Roll No.',
       dataIndex: 'roll_number',
       key: 'roll_number',
     },
@@ -143,7 +145,7 @@ const ManageStudents = () => {
         dispatch(updateStudent({...student,id}))
         setSelectedStudent({...student,id})
         toast.success('Successfully Updated Student')
-        form.reset()
+        setUpdateOpen(false)
     }
     catch(error){
         toast.error(error.message)
@@ -153,8 +155,48 @@ const ManageStudents = () => {
   return (
     <div className='p-5 w-full'>
         <Table columns={columns} dataSource={students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false}/>
-        <Modal open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
-    <h1>{ selectedStudent._id}</h1>
+        <Modal width={600} open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
+    <div className='flex flex-col items-center gap-5'>
+    <h1 className='font-semibold text-xl mb-8'>
+            {selectedStudent?.firstName} {"'s "} Details
+        </h1>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Name</h1>
+            <span>{selectedStudent?.firstName} {" "} {selectedStudent?.middleName} {" "} {selectedStudent?.lastName}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Class</h1>
+            <span>{selectedStudent?.className}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Division</h1>
+            <span>{selectedStudent?.division}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Roll</h1>
+            <span>{selectedStudent?.roll_number}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Address 1</h1>
+            <span>{selectedStudent?.address_1}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Student Address 2</h1>
+            <span>{selectedStudent?.address_2}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Landmark</h1>
+            <span>{selectedStudent?.landmark}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>City</h1>
+            <span>{selectedStudent?.city}</span>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+            <h1 className='font-semibold'>Pin code</h1>
+            <span>{selectedStudent?.pincode}</span>
+        </div>
+    </div>
         </Modal>
         <Modal open={updateOpen} onCancel={()=>setUpdateOpen(false)} footer={false}>
         <form onSubmit={(e)=>handleUpdateModal(e,selectedStudent._id)} className='w-full flex flex-col items-center gap-5'>
