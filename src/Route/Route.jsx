@@ -5,6 +5,7 @@ import RootLayout from '../layout/RootLayout';
 import Login from '../pages/Auth/Login';
 import PrivateRoute from './PrivateRoute';
 import AddStudents from '../pages/AddStudents';
+import ManageStudents from '../pages/ManageStudents';
 
 const Route = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const Route = createBrowserRouter([
        {
         path: '',
        element: <PrivateRoute><AddStudents/></PrivateRoute>
+       },
+       {
+        path: '/manage_students',
+        element: <ManageStudents/>
        }
       ]
     },
