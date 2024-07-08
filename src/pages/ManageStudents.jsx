@@ -9,6 +9,8 @@ import { getRoman } from '../Utils/getRoman';
 import moment from 'moment';
 
 const ManageStudents = () => {
+    const [sortedStudents, setSortedStudents] = useState([]);
+    const [isSorted, setIsSorted] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [viewOpen,setViewOpen] = useState(false)
     const [updateOpen,setUpdateOpen] = useState(false)
@@ -157,13 +159,23 @@ const ManageStudents = () => {
   }
 
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value)
-    const filteredStudents = students.filter((student) =>
-        `${student.firstName} ${student.middleName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setCurrentPage(1);
-      setSearch(filteredStudents)
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    const filteredStudents = (isSorted ? sortedStudents : students).filter((student) =>
+      `${student.firstName} ${student.middleName} ${student.lastName}`.toLowerCase().includes(newSearchTerm.toLowerCase())
+    );
+    setCurrentPage(1);
+    setSearch(filteredStudents);
   };
+  
+
+  const handleFilter = () => {
+    const sorted = [...students].sort((a, b) => a.roll_number - b.roll_number);
+    setSortedStudents(sorted);
+    setIsSorted(!isSorted);
+    setCurrentPage(1);
+  };
+
 
 
   return (
@@ -180,17 +192,27 @@ const ManageStudents = () => {
             </div>
             <div className='flex items-center gap-3'>
       <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Export</button>
-      <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Filter</button>
+      <button onClick={(handleFilter)} className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>{isSorted ? 'Filtered' : 'Filter'}</button>
       <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Print</button>
     </div>
     <span>{moment().format('DD MMMM YYYY HH:mm')}</span>
         </div>
-        <Table  className='justify-end' columns={columns} dataSource={searchTerm ? search : students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false} pagination={{
-          current: currentPage,
-          pageSize: 1,
-          total: searchTerm ? search.length : students.length,
-          onChange: (page) => setCurrentPage(page),
-        }}/>
+        <Table
+  className='justify-end'
+  columns={columns}
+  dataSource={searchTerm ? search : (isSorted ? sortedStudents : students)}
+  rowKey="_id"
+  bordered={false}
+  rowClassName={'bg-[#fff6f5]'}
+  rowHoverable={false}
+  pagination={{
+    current: currentPage,
+    pageSize: 5,
+    total: searchTerm ? search.length : (isSorted ? sortedStudents.length : students.length),
+    onChange: (page) => setCurrentPage(page),
+  }}
+/>
+
         <Modal width={600} open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
     <div className='flex flex-col items-center gap-5'>
     <h1 className='font-semibold text-xl mb-8'>
