@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import auth from "../../config/firebase.config";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 
 const userSlice = createSlice({
@@ -38,23 +38,13 @@ export const initializeAuth = () => (dispatch) => {
     });
   };
 
-  export const signInWithGoogle = () => async (dispatch) => {
-    try {
-        const googleProvider = new GoogleAuthProvider();
-      const result = await signInWithPopup(googleProvider);
-      dispatch(setUser(result.user));
-    } catch (error) {
-      console.error("Error signing in with Google: ", error);
-    }
-  };
+  export const googleLogin = () => {
+    const googleProvider = new GoogleAuthProvider();
+return signInWithPopup(auth,googleProvider) 
+  }
   
-  export const signOut = () => async (dispatch) => {
-    try {
-      await auth.signOut();
-      dispatch(clearUser());
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
-  };
+export const logOut = () => {
+    return signOut(auth)
+}
 
 export default userSlice.reducer;
