@@ -164,6 +164,7 @@ const ManageStudents = () => {
     const filteredStudents = (isSorted ? sortedStudents : students).filter((student) =>
       `${student.firstName} ${student.middleName} ${student.lastName}`.toLowerCase().includes(newSearchTerm.toLowerCase())
     );
+
     setCurrentPage(1);
     setSearch(filteredStudents);
   };
