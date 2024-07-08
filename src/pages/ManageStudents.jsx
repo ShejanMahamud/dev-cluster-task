@@ -1,18 +1,22 @@
 // src/components/ManageUsersTable.js
 import React, { useState } from 'react';
 import { Modal, Table } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';// Replace with your user slice/actions
+import { useSelector, useDispatch } from 'react-redux';
 import { deleteStudent, updateStudent } from '../features/Students/studentSlice';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { getRoman } from '../Utils/getRoman';
+import moment from 'moment';
 
 const ManageStudents = () => {
+    const [currentPage, setCurrentPage] = useState(1);
     const [viewOpen,setViewOpen] = useState(false)
     const [updateOpen,setUpdateOpen] = useState(false)
     const [selectedStudent,setSelectedStudent] = useState({})
+    const [search, setSearch] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.student.students); // Replace with your selector
+  const students = useSelector((state) => state.student.students); 
 
   const columns = [
     {
@@ -152,9 +156,41 @@ const ManageStudents = () => {
     }
   }
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value)
+    const filteredStudents = students.filter((student) =>
+        `${student.firstName} ${student.middleName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setCurrentPage(1);
+      setSearch(filteredStudents)
+  };
+
+
   return (
     <div className='p-5 w-full'>
-        <Table columns={columns} dataSource={students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false}/>
+        <div className='w-full flex items-center justify-between mb-8'>
+            <div className='flex items-center gap-3'>
+                <span className='font-semibold'>Manage Students</span>
+                <div className='bg-[#EFF3F6] rounded-[10px] border border-[#D4D8DD] flex items-center gap-3 p-3 '>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.00001 9C4.01191 9 2.40001 7.3881 2.40001 5.4C2.40001 3.4119 4.01191 1.8 6.00001 1.8C7.98811 1.8 9.60002 3.4119 9.60002 5.4C9.60002 7.3881 7.98811 9 6.00001 9ZM10.3983 8.5257C11.0265 7.6428 11.4 6.5664 11.4 5.4C11.4 2.4183 8.98172 0 6.00001 0C3.01831 0 0.600006 2.4183 0.600006 5.4C0.600006 8.3817 3.01831 10.8 6.00001 10.8C7.16641 10.8 8.24281 10.4265 9.12572 9.7983L12.5637 13.2363C12.7392 13.4118 12.9696 13.5 13.2 13.5C13.4304 13.5 13.6608 13.4118 13.8363 13.2363C14.1882 12.8844 14.1882 12.3156 13.8363 11.9637L10.3983 8.5257Z" fill="#637381"/>
+</svg>
+                    <input onChange={handleSearch} placeholder='Search' className='focus:outline-none w-full bg-transparent placeholder:text-[#B5B8BF]'/>
+                </div>
+            </div>
+            <div className='flex items-center gap-3'>
+      <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Export</button>
+      <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Filter</button>
+      <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Print</button>
+    </div>
+    <span>{moment().format('DD MMMM YYYY HH:mm')}</span>
+        </div>
+        <Table  className='justify-end' columns={columns} dataSource={searchTerm ? search : students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false} pagination={{
+          current: currentPage,
+          pageSize: 1,
+          total: searchTerm ? search.length : students.length,
+          onChange: (page) => setCurrentPage(page),
+        }}/>
         <Modal width={600} open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
     <div className='flex flex-col items-center gap-5'>
     <h1 className='font-semibold text-xl mb-8'>
