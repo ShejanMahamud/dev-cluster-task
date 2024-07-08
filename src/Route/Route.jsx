@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import RootLayout from '../layout/RootLayout';
 import Login from '../pages/Auth/Login';
 import PrivateRoute from './PrivateRoute';
+import AddStudents from '../pages/AddStudents';
 
 const Route = createBrowserRouter([
     {
@@ -12,14 +13,14 @@ const Route = createBrowserRouter([
       children: [
        {
         path: '',
-       element: <PrivateRoute><Home/></PrivateRoute>
-       },
-       {
-        path: '/login',
-        element: <Login/>
+       element: <PrivateRoute><AddStudents/></PrivateRoute>
        }
       ]
     },
+    {
+        path: '/login',
+        element: <Login/>
+       }
   ]);
 
 export default Route

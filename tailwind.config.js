@@ -9,6 +9,12 @@ export default {
       backgroundImage: {
         'login': "url('https://i.ibb.co/m6xNVJQ/background.png')",
       },
+      colors: {
+        'primary' : '#F33823'
+      },
+      fontFamily: {
+        'primary' : 'IBM Plex Sans'
+      }
     },
   },
   plugins: [],

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initializeAuth } from '../features/User/userSlice';
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 const RootLayout = () => {
     const dispatch = useDispatch();
@@ -21,7 +23,11 @@ const RootLayout = () => {
     }
   return (
     <>
+    <Navbar/>
+    <div className='w-full grid grid-cols-[20%_80%] row-auto items-start'>
+    <Sidebar/>
     <Outlet/>
+    </div>
     <Toaster position="top-right" reverseOrder={true} />
     </>
   )
