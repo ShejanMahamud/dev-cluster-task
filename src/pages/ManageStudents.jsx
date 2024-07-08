@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import { Modal, Table } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';// Replace with your user slice/actions
-import { deleteStudent } from '../features/Students/studentSlice';
+import { deleteStudent, updateStudent } from '../features/Students/studentSlice';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const ManageStudents = () => {
     const [viewOpen,setViewOpen] = useState(false)
-    const [selectedStudent,setSelectedStudent]
+    const [updateOpen,setUpdateOpen] = useState(false)
+    const [selectedStudent,setSelectedStudent] = useState({})
   const dispatch = useDispatch();
   const students = useSelector((state) => state.student.students); // Replace with your selector
 
@@ -31,7 +33,7 @@ const ManageStudents = () => {
       title: 'View / Edit / Delete',
       render: (text,record) => (
         <div className='flex items-center gap-5'>
-            <button onClick={()=>handleView(record._id)}>
+            <button onClick={()=>handleView(record)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <g clip-path="url(#clip0_3_604)">
     <path d="M23.205 11.8047C22.3229 9.5229 20.7915 7.54962 18.8001 6.12873C16.8088 4.70783 14.4447 3.90159 12 3.80966C9.55543 3.90159 7.19134 4.70783 5.19995 6.12873C3.20856 7.54962 1.67717 9.5229 0.795047 11.8047C0.735473 11.9694 0.735473 12.1499 0.795047 12.3147C1.67717 14.5964 3.20856 16.5697 5.19995 17.9906C7.19134 19.4115 9.55543 20.2177 12 20.3097C14.4447 20.2177 16.8088 19.4115 18.8001 17.9906C20.7915 16.5697 22.3229 14.5964 23.205 12.3147C23.2646 12.1499 23.2646 11.9694 23.205 11.8047ZM12 18.8097C8.02505 18.8097 3.82505 15.8622 2.30255 12.0597C3.82505 8.25716 8.02505 5.30966 12 5.30966C15.975 5.30966 20.175 8.25716 21.6975 12.0597C20.175 15.8622 15.975 18.8097 12 18.8097Z" fill="#F33823"/>
@@ -44,7 +46,7 @@ const ManageStudents = () => {
   </defs>
 </svg>
             </button>
-            <button>
+            <button onClick={()=>handleUpdate(record)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <g clip-path="url(#clip0_3_610)">
     <path d="M22.5 19.5597H1.5V21.0597H22.5V19.5597Z" fill="#F33823"/>
@@ -78,9 +80,14 @@ const ManageStudents = () => {
     },
   ];
 
-  const handleView = (id) => {
+  const handleView = (student) => {
     setViewOpen(true)
-    console.log(id)
+    setSelectedStudent(student)
+  }
+
+  const handleUpdate = (student) => {
+    setUpdateOpen(true)
+    setSelectedStudent(student)
   }
 
   const handleDelete = (id) => {
@@ -104,11 +111,95 @@ const ManageStudents = () => {
       });
   }
 
+  const handleUpdateModal = (e,id) => {
+    e.preventDefault();
+    try{
+        const form = e.target;
+        const firstName = form.first_name.value;
+        const middleName = form.middle_name.value;
+        const lastName = form.last_name.value;
+        const className = form.class.value;
+        const division = form.division.value;
+        const roll_number = form.roll_number.value;
+        const address_1 = form.address_1.value;
+        const address_2 = form.address_2.value;
+        const landmark = form.landmark.value;
+        const city = form.city.value;
+        const pincode = form.pincode.value;
+
+        const student = {
+            firstName,
+            middleName,
+            lastName,
+            className,
+            division,
+            roll_number,
+            address_1,
+            address_2,
+            landmark,
+            city,
+            pincode
+        }
+        dispatch(updateStudent({...student,id}))
+        setSelectedStudent({...student,id})
+        toast.success('Successfully Updated Student')
+        form.reset()
+    }
+    catch(error){
+        toast.error(error.message)
+    }
+  }
+
   return (
     <div className='p-5 w-full'>
         <Table columns={columns} dataSource={students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false}/>
         <Modal open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
-    <h1>{}</h1>
+    <h1>{ selectedStudent._id}</h1>
+        </Modal>
+        <Modal open={updateOpen} onCancel={()=>setUpdateOpen(false)} footer={false}>
+        <form onSubmit={(e)=>handleUpdateModal(e,selectedStudent._id)} className='w-full flex flex-col items-center gap-5'>
+        <h1 className='font-semibold text-xl mb-8'>
+            Update Student
+        </h1>
+                <input type="text" name='first_name' defaultValue={selectedStudent?.firstName} required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='First Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+                <input type="text" name='middle_name' defaultValue={selectedStudent?.middleName} required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='Middle Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+                <input type="text" name='last_name' defaultValue={selectedStudent?.lastName} required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='Last Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+                <select name="class" defaultValue={selectedStudent?.className} className="custom-select p-4 rounded-[5px] text-black/50 w-full focus:outline-none">
+            <option value="" disabled >Select Class</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <select defaultValue={selectedStudent?.division} name="division" className="custom-select p-4 rounded-[5px] text-black/50 w-full focus:outline-none">
+            <option value="" disabled>Select Devision</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+        </select>
+        <input defaultValue={selectedStudent?.roll_number} type="number" name='roll_number' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='Roll Number in Digits' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+            <textarea defaultValue={selectedStudent?.address_1} name="address_1" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full custom-textarea" placeholder="Address Line 1" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
+            <textarea defaultValue={selectedStudent?.address_2} name="address_2" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full custom-textarea" placeholder="Address Line 2" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
+  
+        <input defaultValue={selectedStudent?.landmark} type="text" name='landmark' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='Landmark' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <input defaultValue={selectedStudent?.city} type="text" name='city' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='City' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <input defaultValue={selectedStudent?.pincode} type="number" name='pincode' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none w-full' placeholder='Pincode' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <button className='bg-primary text-white font-bold py-3 mt-8 rounded-[5px] w-full'>
+                Update Student
+            </button>
+            
+        </form>
         </Modal>
     </div>
   );
