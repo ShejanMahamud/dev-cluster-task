@@ -1,9 +1,13 @@
 // src/components/ManageUsersTable.js
-import React from 'react';
-import { Table } from 'antd';
+import React, { useState } from 'react';
+import { Modal, Table } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';// Replace with your user slice/actions
+import { deleteStudent } from '../features/Students/studentSlice';
+import Swal from 'sweetalert2';
 
 const ManageStudents = () => {
+    const [viewOpen,setViewOpen] = useState(false)
+    const [selectedStudent,setSelectedStudent]
   const dispatch = useDispatch();
   const students = useSelector((state) => state.student.students); // Replace with your selector
 
@@ -27,7 +31,7 @@ const ManageStudents = () => {
       title: 'View / Edit / Delete',
       render: (text,record) => (
         <div className='flex items-center gap-5'>
-            <button>
+            <button onClick={()=>handleView(record._id)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <g clip-path="url(#clip0_3_604)">
     <path d="M23.205 11.8047C22.3229 9.5229 20.7915 7.54962 18.8001 6.12873C16.8088 4.70783 14.4447 3.90159 12 3.80966C9.55543 3.90159 7.19134 4.70783 5.19995 6.12873C3.20856 7.54962 1.67717 9.5229 0.795047 11.8047C0.735473 11.9694 0.735473 12.1499 0.795047 12.3147C1.67717 14.5964 3.20856 16.5697 5.19995 17.9906C7.19134 19.4115 9.55543 20.2177 12 20.3097C14.4447 20.2177 16.8088 19.4115 18.8001 17.9906C20.7915 16.5697 22.3229 14.5964 23.205 12.3147C23.2646 12.1499 23.2646 11.9694 23.205 11.8047ZM12 18.8097C8.02505 18.8097 3.82505 15.8622 2.30255 12.0597C3.82505 8.25716 8.02505 5.30966 12 5.30966C15.975 5.30966 20.175 8.25716 21.6975 12.0597C20.175 15.8622 15.975 18.8097 12 18.8097Z" fill="#F33823"/>
@@ -53,7 +57,7 @@ const ManageStudents = () => {
   </defs>
 </svg>
             </button>
-            <button>
+            <button onClick={()=>handleDelete(record._id)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
   <g clip-path="url(#clip0_3_614)">
     <path d="M10.5 9.05966H9V18.0597H10.5V9.05966Z" fill="#F33823"/>
@@ -74,9 +78,38 @@ const ManageStudents = () => {
     },
   ];
 
+  const handleView = (id) => {
+    setViewOpen(true)
+    console.log(id)
+  }
+
+  const handleDelete = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+        dispatch(deleteStudent(id))
+          Swal.fire({
+            title: "Deleted!",
+            text: "Student has been deleted.",
+            icon: "success"
+          });
+        }
+      });
+  }
+
   return (
     <div className='p-5 w-full'>
-        <Table columns={columns} dataSource={students} rowKey="_id" bordered={false}/>
+        <Table columns={columns} dataSource={students} rowKey="_id" bordered={false} rowClassName={'bg-[#fff6f5]'} rowHoverable={false}/>
+        <Modal open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
+    <h1>{}</h1>
+        </Modal>
     </div>
   );
 };

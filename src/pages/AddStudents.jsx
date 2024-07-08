@@ -11,6 +11,7 @@ const dispatch = useDispatch();
 const handleAddStudent = (e) => {
     e.preventDefault();
     try{
+        const _id = generateId()
         const form = e.target;
         const firstName = form.first_name.value;
         const middleName = form.middle_name.value;
@@ -25,7 +26,7 @@ const handleAddStudent = (e) => {
         const pincode = form.pincode.value;
 
         const student = {
-            _id: generateId(),
+            _id,
             firstName,
             middleName,
             lastName,

@@ -7,4 +7,5 @@ export const generateId = () => {
       const randomIndex = Math.floor(Math.random() * charactersLength);
       result += characters.charAt(randomIndex);
     }
+    return result
   };

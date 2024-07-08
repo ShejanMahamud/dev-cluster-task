@@ -33,6 +33,7 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: #F33823;
 }
 
-.ant-table-thead > tr > th {
-  border: 2px solid red !important;
+
+:where(.css-dev-only-do-not-override-98ntnt).ant-table-wrapper .ant-table-thead >tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before, :where(.css-dev-only-do-not-override-98ntnt).ant-table-wrapper .ant-table-thead >tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{
+  background-color: transparent;
 }
