@@ -181,8 +181,8 @@ const ManageStudents = () => {
 
   return (
     <div className='p-5 w-full'>
-        <div className='w-full flex items-center justify-between mb-8'>
-            <div className='flex items-center gap-3'>
+        <div className='w-full lg:flex-row flex-col flex items-center justify-between mb-8 gap-5 lg:gap-0'>
+            <div className='flex lg:flex-row flex-col items-center gap-3'>
                 <span className='font-semibold'>Manage Students</span>
                 <div className='bg-[#EFF3F6] rounded-[10px] border border-[#D4D8DD] flex items-center gap-3 p-3 '>
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
@@ -191,7 +191,7 @@ const ManageStudents = () => {
                     <input onChange={handleSearch} placeholder='Search' className='focus:outline-none w-full bg-transparent placeholder:text-[#B5B8BF]'/>
                 </div>
             </div>
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-3 lg:flex-row flex-col'>
       <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Export</button>
       <button onClick={(handleFilter)} className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>{isSorted ? 'Filtered' : 'Filter'}</button>
       <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Print</button>
@@ -199,7 +199,7 @@ const ManageStudents = () => {
     <span>{moment().format('DD MMMM YYYY HH:mm')}</span>
         </div>
         <Table
-  className='justify-end'
+  className='justify-end overflow-x-auto'
   columns={columns}
   dataSource={searchTerm ? search : (isSorted ? sortedStudents : students)}
   rowKey="_id"

@@ -24,7 +24,7 @@ const RootLayout = () => {
   return (
     <>
     <Navbar/>
-    <div className='w-full grid grid-cols-[20%_80%] row-auto items-start'>
+    <div className='w-full grid lg:grid-cols-[20%_80%] grid-cols-1 row-auto items-start'>
     <Sidebar/>
     <Outlet/>
     </div>

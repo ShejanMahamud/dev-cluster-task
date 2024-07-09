@@ -53,7 +53,7 @@ const handleAddStudent = (e) => {
             Add Student
         </h1>
         <form onSubmit={handleAddStudent} className='w-full flex flex-col items-center'>
-            <div className='w-full grid grid-cols-3 items-center gap-4 mb-12'>
+            <div className='w-full grid lg:grid-cols-3 grid-cols-1 items-center gap-4 mb-12'>
                 <input type="text" name='first_name' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none' placeholder='First Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
                 <input type="text" name='middle_name' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none' placeholder='Middle Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
                 <input type="text" name='last_name' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none' placeholder='Last Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
@@ -83,14 +83,14 @@ const handleAddStudent = (e) => {
         </select>
         <input type="number" name='roll_number' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none' placeholder='Roll Number in Digits' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
             </div>
-            <div className='w-full grid grid-cols-6 items-center gap-4'>
-            <textarea name="address_1" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none col-span-3 custom-textarea" placeholder="Address Line 1" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
-            <textarea name="address_2" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none col-span-3 custom-textarea" placeholder="Address Line 2" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
+            <div className='w-full grid lg:grid-cols-6 grid-cols-1 items-center gap-4'>
+            <textarea name="address_1" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none lg:col-span-3 col-span-1 custom-textarea" placeholder="Address Line 1" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
+            <textarea name="address_2" required rows="1" className="p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none lg:col-span-3 col-span-1 custom-textarea" placeholder="Address Line 2" style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}></textarea>
   
-        <input type="text" name='landmark' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none col-span-2' placeholder='Landmark' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
-        <input type="text" name='city' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none col-span-2' placeholder='City' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
-        <input type="number" name='pincode' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none col-span-2' placeholder='Pincode' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
-        <button className='bg-primary text-white font-bold col-span-2 py-3 mt-8 rounded-[5px]'>
+        <input type="text" name='landmark' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none lg:col-span-2' placeholder='Landmark' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <input type="text" name='city' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none lg:col-span-2' placeholder='City' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <input type="number" name='pincode' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none lg:col-span-2' placeholder='Pincode' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
+        <button className='bg-primary text-white font-bold lg:col-span-2 py-3 mt-8 rounded-[5px]'>
                 Add Student
             </button>
             </div>

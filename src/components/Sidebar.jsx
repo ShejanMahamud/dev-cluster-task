@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import {logOut} from './../features/User/userSlice'
 import toast from 'react-hot-toast'
+import { FaBars } from 'react-icons/fa'
 
 const Sidebar = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const {pathname} = useLocation()
     const signOut = async () => {
         try{
@@ -16,6 +18,20 @@ const Sidebar = () => {
     }
   return (
     <div className='w-full flex flex-col items-start gap-3 p-5'>
+
+
+      {/* Hamburger Menu */}
+      <div className="lg:hidden fixed top-20 z-50 bg-primary text-white p-1 ">
+        <button
+          className="text-white focus:outline-none"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          <FaBars size={16} />
+        </button>
+      </div>
+        <div className={`fixed top-20 left-0 w-64 bg-white shadow-md p-6 h-full z-40 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0`}>
         <NavLink
         end
               className={({ isActive }) =>
@@ -78,6 +94,7 @@ const Sidebar = () => {
 </svg>
 <span className='text-[#00000099]'>Logout</span>
             </button>
+        </div>
     </div>
   )
 }
