@@ -1,54 +1,66 @@
-# DEV CLUSTER STUDENT PORTAL TASK
+# Dev Cluster Student Portal Task
 
-# Features: 
+## Features
 
-> - Add Students
-> - Update Students
-> - Delete Student
-> - Filter based on student roll
-> - Search based on student name
-> - After filter also can search
-> - pagination functionality (default per page 5 so for show pagination please add 5 student)
-> - Private Route and Google Login
+- **Add Students:** Add new students to the portal.
+- **Update Students:** Edit student information.
+- **Delete Student:** Remove a student from the portal.
+- **Filter Students:** Filter the list of students based on their roll number.
+- **Search Students:** Search for students by their name.
+- **Combined Filter and Search:** Search within the filtered list of students.
+- **Pagination:** Display students in pages, with 5 students per page by default. (Please add at least 5 students to see pagination in action.)
+- **Private Route and Google Login:** Secure the routes with authentication and allow login via Google.
 
-# Problem Faced & Solutions
+## Challenges & Solutions
 
-<p>I have no idea about REDUX Toolkit before. DOing this task i learn from docs, videos and implement here.</p>
+I had limited experience with Redux Toolkit before starting this project. Through documentation and tutorial videos, I was able to learn and implement it effectively.
 
-# Technologies Used
+## Technologies Used
 
-React, Redux, Tailwind CSS, Firebase, Redux Pertist
+- **React**
+- **Redux**
+- **Tailwind CSS**
+- **Firebase**
+- **Redux Persist**
 
-# Run This Project 
+## Running the Project
 
-```
-https://github.com/ShejanMahamud/dev-cluster-task.git
-```
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/ShejanMahamud/dev-cluster-task.git
+   cd dev-cluster-task
+   ```
 
-```
-npm install
-```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-Add .env file on root and add firebase config
-```
-VITE_FIREBASE_API_KEY = ""
-VITE_FIREBASE_AUTH_DOMAIN = ""
-VITE_FIREBASE_PROJECT_ID = ""
-VITE_FIREBASE_STORAGE_BUCKET = ""
-VITE_FIREBASE_MESSAGING_ID = ""
-VITE_FIREBASE_APP_ID = ""
-```
-Locally Run
-```
-npm run dev
-```
+3. Create a `.env` file in the root directory and add your Firebase configuration:
+   ```
+   VITE_FIREBASE_API_KEY=""
+   VITE_FIREBASE_AUTH_DOMAIN=""
+   VITE_FIREBASE_PROJECT_ID=""
+   VITE_FIREBASE_STORAGE_BUCKET=""
+   VITE_FIREBASE_MESSAGING_ID=""
+   VITE_FIREBASE_APP_ID=""
+   ```
 
-Build
-```
-npm run build
-```
+4. Run the project locally:
+   ```sh
+   npm run dev
+   ```
 
-# Live Link
-[Live Link](https://dev-cluster.vercel.app/)
+5. Build the project:
+   ```sh
+   npm run build
+   ```
 
-# Thanks for visiting!
+## Live Demo
+
+Check out the live demo [here](https://dev-cluster.vercel.app/).
+
+---
+
+Thank you for visiting!
+
