@@ -21,7 +21,8 @@ const studentSlice = createSlice({
             }
           },
         deleteStudent: (state,action) => {
-            state.students = state.students.filter(student => student.id !== action.payload)
+            console.log(action)
+            state.students = state.students.filter(student => student._id !== action.payload)
         }   
     }
 })
