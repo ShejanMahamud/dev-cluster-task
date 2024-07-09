@@ -59,19 +59,18 @@ const handleAddStudent = (e) => {
                 <input type="text" name='last_name' required className='p-4 rounded-[5px] placeholder:text-[#00000080] focus:outline-none' placeholder='Last Name' style={{boxShadow: '0px 0px 3px 0px rgba(0, 0, 0, 0.20)'}}/>
                 <select name="class" className="custom-select p-4 rounded-[5px] text-black/50 w-full focus:outline-none">
             <option value="" disabled selected>Select Class</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+            <option value="V">V</option>
+            <option value="VI">VI</option>
+            <option value="VII">VII</option>
+            <option value="VIII">VIII</option>
+            <option value="IX">IX</option>
+            <option value="X">X</option>
+            <option value="XI">XI</option>
+            <option value="XII">XII</option>
         </select>
         <select name="division" className="custom-select p-4 rounded-[5px] text-black/50 w-full focus:outline-none">
             <option value="" disabled selected>Select Devision</option>

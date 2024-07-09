@@ -7,8 +7,11 @@ import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { getRoman } from '../Utils/getRoman';
 import moment from 'moment';
+import { useRef } from 'react';
+import generatePDF from 'react-to-pdf';
 
 const ManageStudents = () => {
+  const targetRef = useRef();
     const [sortedStudents, setSortedStudents] = useState([]);
     const [isSorted, setIsSorted] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +31,7 @@ const ManageStudents = () => {
     },
     {
         title: 'Class',
-        render: (text, record) => `${getRoman(record.className)}-${record.division}`,
+        render: (text, record) => `${record.className}-${record.division}`,
         key: 'className',
       },
       
@@ -194,11 +197,12 @@ const ManageStudents = () => {
             <div className='flex items-center gap-3 lg:flex-row flex-col'>
       <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Export</button>
       <button onClick={(handleFilter)} className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>{isSorted ? 'Filtered' : 'Filter'}</button>
-      <button className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Print</button>
+      <button onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}className='border border-[#647887] bg-[#F8F9FB] rounded-[10px] py-[14px] px-[11px] text-[#4E5159] text-[13px] h-[38px] w-[80px] flex items-center justify-center'>Print</button>
     </div>
     <span>{moment().format('DD MMMM YYYY HH:mm')}</span>
         </div>
         <Table
+        
   className='justify-end overflow-x-auto'
   columns={columns}
   dataSource={searchTerm ? search : (isSorted ? sortedStudents : students)}
@@ -215,7 +219,7 @@ const ManageStudents = () => {
 />
 
         <Modal width={600} open={viewOpen} onCancel={()=>setViewOpen(false)} footer={false}>
-    <div className='flex flex-col items-center gap-5'>
+    <div className='flex flex-col items-center gap-5' ref={targetRef}>
     <h1 className='font-semibold text-xl mb-8'>
             {selectedStudent?.firstName} {"'s "} Details
         </h1>
